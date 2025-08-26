@@ -6,8 +6,46 @@
     <title>Unity WebGL Player | LittleGuarana</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+
+    <style>
+      #rotateScreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #000;
+        color: #fff;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        z-index: 9999;
+        display: none;
+      }
+      </style>
+
+    <script>
+    function checkOrientation() {
+      if (window.innerHeight > window.innerWidth) {
+        // Se estiver em modo retrato, mostra a tela de aviso
+        document.getElementById("rotateScreen").style.display = "flex";
+      } else {
+        // Se estiver em modo paisagem, esconde
+        document.getElementById("rotateScreen").style.display = "none";
+      }
+    }
+    
+    window.addEventListener("resize", checkOrientation);
+    window.addEventListener("orientationchange", checkOrientation);
+    window.addEventListener("load", checkOrientation);
+    </script>
+
   </head>
   <body>
+    <div id="rotateScreen">Por favor, gire seu celular para jogar em modo paisagem.</div>
+
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
