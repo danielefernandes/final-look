@@ -7,45 +7,48 @@
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
 
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, height=device-height, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+    />
+
     <style>
+      html, body { margin: 0; height: 100%; background: #000; }
+
       #rotateScreen {
         position: fixed;
-        top: 0;
-        left: 0;
+        inset: 0;
         width: 100vw;
-        height: 100vh;
+        height: 100vh;         /* fallback */
+        height: 100dvh;        /* viewport “dinâmico” em celulares modernos */
+        padding: calc(env(safe-area-inset-top) + 16px) 16px calc(env(safe-area-inset-bottom) + 16px);
         background: #000;
         color: #fff;
-        font-size: 20px;
-        display: flex;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        font-size: 18px;
+        display: none;         /* padrão: escondido */
         align-items: center;
         justify-content: center;
         text-align: center;
-        z-index: 9999;
-        display: none;
+        z-index: 99999;
       }
-      </style>
 
-    <script>
-    function checkOrientation() {
-      if (window.innerHeight > window.innerWidth) {
-        // Se estiver em modo retrato, mostra a tela de aviso
-        document.getElementById("rotateScreen").style.display = "flex";
-      } else {
-        // Se estiver em modo paisagem, esconde
-        document.getElementById("rotateScreen").style.display = "none";
+      /* Em retrato: mostra aviso e esconde o jogo */
+      @media screen and (orientation: portrait) {
+        #rotateScreen { display: flex; }
+        #unity-container { display: none !important; }
       }
-    }
-    
-    window.addEventListener("resize", checkOrientation);
-    window.addEventListener("orientationchange", checkOrientation);
-    window.addEventListener("load", checkOrientation);
-    </script>
 
+      /* Em paisagem: mostra o jogo */
+      @media screen and (orientation: landscape) {
+        #rotateScreen { display: none; }
+        #unity-container { display: block; }
+      }
+    </style>
   </head>
   <body>
     <div id="rotateScreen">Por favor, gire seu celular para jogar em modo paisagem.</div>
-
+    
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
